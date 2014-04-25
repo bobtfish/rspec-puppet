@@ -15,7 +15,7 @@ module RSpec::Puppet
 
       hiera_config_value = self.respond_to?(:hiera_config) ? hiera_config : nil
 
-      catalogue = build_catalog(node_name, facts_hash(node_name), hiera_config_value, code)
+      catalogue = build_catalog(node_name, facts_hash(node_name), code, hiera_config_value)
 
       RSpec::Puppet::Coverage.filters << "#{type.to_s.capitalize}[#{self.class.display_name.capitalize}]"
 
@@ -139,7 +139,7 @@ module RSpec::Puppet
       vardir
     end
 
-    def build_catalog_without_cache(nodename, facts_val, hiera_config_val, code)
+    def build_catalog_without_cache(nodename, facts_val, code, *rest)
 
       # If we're going to rebuild the catalog, we should clear the cached instance
       # of Hiera that Puppet is using.  This opens the possibility of the catalog
